@@ -1,34 +1,37 @@
 package br.com.elasticcode.portifoliodeprojetos.controller;
 
-import br.com.elasticcode.portifoliodeprojetos.model.Projeto;
+import br.com.elasticcode.portifoliodeprojetos.model.ProjetoEntity;
 import br.com.elasticcode.portifoliodeprojetos.service.ProjetoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/projectos")
+@RequestMapping("/projetos")
 public class ProjetoController {
 
+    @Autowired
     private ProjetoService projetoService;
 
     @PostMapping
-    public Projeto cadastrarProjeto(@RequestBody Projeto projeto){
+    public ProjetoEntity cadastrarProjeto(@RequestBody ProjetoEntity projeto){
+
         return projetoService.cadastrarProjeto(projeto);
     }
 
     @GetMapping
-    public List<Projeto> listarProjetos(){
+    public List<ProjetoEntity> listarProjetos(){
         return  projetoService.listarProjetos();
     }
 
     @GetMapping("/{id}")
-    public Projeto buscarProjetoPorId(@PathVariable Long id){
+    public ProjetoEntity buscarProjetoPorId(@PathVariable Long id){
         return projetoService.buscarProjetoPorId(id);
     }
 
     @PutMapping("/{id}")
-    public Projeto atualizarProjeto(@PathVariable Long id, @RequestBody Projeto projetoAtualizado){
+    public ProjetoEntity atualizarProjeto(@PathVariable Long id, @RequestBody ProjetoEntity projetoAtualizado){
         return projetoService.atualizarProjeto(id, projetoAtualizado);
     }
 
@@ -36,4 +39,10 @@ public class ProjetoController {
     public void excluirProjeto(@PathVariable Long id){
     projetoService.excluirProjeto(id);
 }
+
+
+    @PutMapping("/membros")
+    public void cadastrarMembros(@RequestBody ProjetoEntity projeto){
+        projetoService.addMembros(projeto,projeto.getMembros());
+    }
 }

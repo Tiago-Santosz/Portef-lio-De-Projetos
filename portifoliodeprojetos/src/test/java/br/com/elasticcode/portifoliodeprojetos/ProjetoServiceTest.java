@@ -1,6 +1,6 @@
 package br.com.elasticcode.portifoliodeprojetos;
 
-import br.com.elasticcode.portifoliodeprojetos.model.Projeto;
+import br.com.elasticcode.portifoliodeprojetos.model.ProjetoEntity;
 import br.com.elasticcode.portifoliodeprojetos.repository.ProjetoRepository;
 import br.com.elasticcode.portifoliodeprojetos.service.ProjetoService;
 import org.junit.Before;
@@ -19,6 +19,9 @@ public class ProjetoServiceTest {
     @InjectMocks
     private ProjetoService projetoService;
 
+    @InjectMocks
+    private ProjetoEntity projeto;
+
     @Mock
     private ProjetoRepository projetoRepository;
 
@@ -30,17 +33,17 @@ public class ProjetoServiceTest {
     @Test
     public void testAtualizarProjeto() {
         Long projetoId = 1L;
-        Projeto projeto = new Projeto();
+        ProjetoEntity projeto = new ProjetoEntity();
         projeto.setId(projetoId);
         projeto.setNome("Projeto Antigo");
         when(projetoRepository.existsById(projetoId)).thenReturn(true);
         when(projetoRepository.save(projeto)).thenReturn(projeto);
 
-        Projeto projetoAtualizado = new Projeto();
+        ProjetoEntity projetoAtualizado = new ProjetoEntity();
         projetoAtualizado.setId(projetoId);
         projetoAtualizado.setNome("Projeto Atualizado");
 
-        Projeto projetoResultado = projetoService.atualizarProjeto(projetoId, projetoAtualizado);
+        ProjetoEntity projetoResultado = projetoService.atualizarProjeto(projetoId, projetoAtualizado);
 
         assertEquals("Projeto Atualizado", projetoResultado.getNome());
     }
